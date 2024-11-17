@@ -306,7 +306,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -317,7 +317,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &225502987
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -397,7 +397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432494a99e8b0d44a94ff2c006eff8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 225502986}
   direction: 0
 --- !u!1 &519420028
 GameObject:
@@ -692,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ControlPath: 
+  m_ControlPath: <Keyboard>/leftArrow
 --- !u!1 &1654045570
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +887,7 @@ GameObject:
   - component: {fileID: 1781566326}
   m_Layer: 0
   m_Name: Ground1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

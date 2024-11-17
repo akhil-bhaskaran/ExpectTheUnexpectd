@@ -38,12 +38,12 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""94e27bcc-eb7a-4fc0-bca2-a00d19fa06ca"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -51,7 +51,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""name"": ""Arrow keys"",
                     ""id"": ""574fd7b7-c4be-496c-af38-70b76d6d559f"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
@@ -59,7 +59,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""Negative"",
                     ""id"": ""0b093a86-4cdc-443b-a0ff-6a942a189108"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
@@ -70,7 +70,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""Positive"",
                     ""id"": ""b270f417-0a98-4919-b2e1-7d07f6b1be45"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
