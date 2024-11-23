@@ -397,7 +397,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432494a99e8b0d44a94ff2c006eff8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 0
+  speed: 6
+  acceleration: 10
+  deceleration: 15
+  jumpForce: 10
+  jumpCutMultiplier: 0.5
+  groundCheck: {fileID: 1781566323}
+  groundCheckRadius: 0.2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +901,7 @@ GameObject:
   - component: {fileID: 1781566328}
   - component: {fileID: 1781566327}
   - component: {fileID: 1781566326}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground1
   m_TagString: Ground
   m_Icon: {fileID: 0}
