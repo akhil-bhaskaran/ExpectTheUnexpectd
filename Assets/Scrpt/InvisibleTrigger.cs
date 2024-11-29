@@ -28,6 +28,7 @@ public class InvisibleTrigger : MonoBehaviour
     {
         
             obstaclesToTrigger.SetActive(true);
+           
       /*  foreach (GameObject obstacle in obstaclesToTrigger)
         {
             // Activate each obstacle or trigger its actions
