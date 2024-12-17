@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class LevelManagement : MonoBehaviour
 {
-    public GameObject canvasPrefab;  // Prefab of the Canvas
+    private GameObject canvasPrefab;  // Prefab of the Canvas
     private GameObject canvasInstance; // Instance of the Canvas
-    private GameObject pausePanel;    // Reference to Pause Panel
+    public GameObject pausePanel;    // Reference to Pause Panel
 
     void Start()
     {
         // Check if canvasPrefab is assigned
-        if (canvasPrefab != null)
+       /* if (canvasPrefab != null)
         {
             Debug.Log("CanvasPrefab is assigned for this level.");
 
@@ -36,7 +36,10 @@ public class LevelManagement : MonoBehaviour
         else
         {
             Debug.LogError("Canvas Prefab is not assigned in the Inspector for this level!");
-        }
+        }*/
+             pausePanel.SetActive(false);
+        Debug.Log("Pause Panel initiated.");
+
     }
 
     
@@ -65,6 +68,7 @@ public class LevelManagement : MonoBehaviour
 
     public void stopGame()
     {
+        Debug.Log("stop game called");
         if (pausePanel != null)
         {
             pausePanel.SetActive(true);
@@ -87,7 +91,7 @@ public class LevelManagement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("PausePanel is not assigned or instantiated!");
+            Debug.LogError("PausePanel is not assigned or !");
         }
     }
 

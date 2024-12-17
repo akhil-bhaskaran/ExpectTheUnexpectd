@@ -10,8 +10,13 @@ public class Boom : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            gameOver.SetActive(true);
-            Time.timeScale = 0f;
+            Dead();
         }
+    }
+
+    void Dead()
+    {
+        gameOver.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
