@@ -7,7 +7,14 @@ public class LevelManagement : MonoBehaviour
 {
     private GameObject canvasPrefab;  // Prefab of the Canvas
     private GameObject canvasInstance; // Instance of the Canvas
-    public GameObject pausePanel;    // Reference to Pause Panel
+    public GameObject pausePanel;
+    public GameObject quizPanel;
+    public GameObject gameOverPanel;
+    public GameObject spike;
+
+    public Rigidbody2D rb;
+    Vector2 startpos;
+    public int lives;// Reference to Pause Panel
 
     void Start()
     {
@@ -37,9 +44,11 @@ public class LevelManagement : MonoBehaviour
         {
             Debug.LogError("Canvas Prefab is not assigned in the Inspector for this level!");
         }*/
-             pausePanel.SetActive(false);
+        pausePanel.SetActive(false);
         Debug.Log("Pause Panel initiated.");
-
+        quizPanel.SetActive(false);
+        lives = 4;
+        startpos = rb.transform.position;
     }
 
     
@@ -62,10 +71,26 @@ public class LevelManagement : MonoBehaviour
 
     public void restartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1.0f;
+        if(lives > 0)
+        {
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            rb.transform.position = startpos;
+            pausePanel.SetActive(false);
+            gameOverPanel.SetActive(false);
+            Time.timeScale = 1.0f;
+            lives--;
+            ResetTraps();
+        }
+        else
+        {
+            quizPanel.SetActive(true);
+        }
+       
     }
-
+    void ResetTraps()
+    {
+        spike.SetActive(false);
+    }
     public void stopGame()
     {
         Debug.Log("stop game called");

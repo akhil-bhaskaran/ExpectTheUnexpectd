@@ -792,7 +792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &427328557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1096,51 +1096,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 614583731}
   m_CullTransparentMesh: 1
---- !u!1 &708661341
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 708661343}
-  - component: {fileID: 708661342}
-  m_Layer: 0
-  m_Name: PauseObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &708661342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708661341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5396c22227cfaf547ad39043d3882e28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pausepanel: {fileID: 877313044551089366}
---- !u!4 &708661343
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708661341}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1260.7472, y: 899.50977, z: -10.187262}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &713016775 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5153523596964484891, guid: 2b9e8b4c96b592947a7377fe308a4f56, type: 3}
@@ -6098,6 +6053,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 877313044551089366}
+  quizPanel: {fileID: 427328556}
+  gameOverPanel: {fileID: 713016775}
+  spike: {fileID: 404160146}
+  rb: {fileID: 225502986}
+  lives: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6110,4 +6070,3 @@ SceneRoots:
   - {fileID: 404160149}
   - {fileID: 2584084518765454023}
   - {fileID: 5022366679366949313}
-  - {fileID: 708661343}
