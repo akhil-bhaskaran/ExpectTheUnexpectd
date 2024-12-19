@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "716324907394",
+    "project_id": "etuog-5b6c6",
+    "storage_bucket": "etuog-5b6c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716324907394:android:f6ba9e4c12cad742cf079b",
+        "android_client_info": {
+          "package_name": "com.project.EXPOG"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr4L2d_1Tb4ig0PZciFADoBDdDPyYJRio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
