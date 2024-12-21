@@ -47,7 +47,7 @@ public class UIIntroAnimation : MonoBehaviour
     public void UsernameCancel() {
         LeanTween.moveY(userNamePanel, -400, animationDuration).setEase(LeanTweenType.easeInOutQuad);
     }
-    public void ShowStatusPanel()
+    public  void ShowStatusPanel()
     {
         
         statusPannel.SetActive(true); // Show the panel

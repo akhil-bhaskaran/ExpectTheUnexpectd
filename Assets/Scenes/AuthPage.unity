@@ -563,6 +563,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120312582}
   m_CullTransparentMesh: 1
+--- !u!1 &131929743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131929745}
+  - component: {fileID: 131929744}
+  m_Layer: 0
+  m_Name: FirebaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &131929744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131929743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5954300ac8c5864eaba4964be9951f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoginEmail: {fileID: 844394208}
+  Password: {fileID: 705557022}
+  SignUpEmail: {fileID: 1895884671}
+  SignUpPassword: {fileID: 560037866}
+  ConfirmPassword: {fileID: 52948423}
+  Username: {fileID: 924092528}
+  StatusPanel: {fileID: 489687205}
+--- !u!4 &131929745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131929743}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1555.9647, y: 413.82306, z: -18.901104}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &231838979
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +1043,7 @@ GameObject:
   - component: {fileID: 392100135}
   - component: {fileID: 392100134}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SignUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3256,9 +3307,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1076889306}
-        m_TargetAssemblyTypeName: UIIntroAnimation, Assembly-CSharp
-        m_MethodName: ShowStatusPanel
+      - m_Target: {fileID: 131929744}
+        m_TargetAssemblyTypeName: FirebaseManager, Assembly-CSharp
+        m_MethodName: RegisterPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4555,7 +4606,7 @@ GameObject:
   - component: {fileID: 1613090676}
   - component: {fileID: 1613090675}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4625,9 +4676,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1076889306}
-        m_TargetAssemblyTypeName: UIIntroAnimation, Assembly-CSharp
-        m_MethodName: LoginBtn
+      - m_Target: {fileID: 131929744}
+        m_TargetAssemblyTypeName: FirebaseManager, Assembly-CSharp
+        m_MethodName: Login
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5956,3 +6007,4 @@ SceneRoots:
   - {fileID: 703340730}
   - {fileID: 818642627}
   - {fileID: 1076889307}
+  - {fileID: 131929745}
