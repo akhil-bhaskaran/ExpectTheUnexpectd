@@ -4926,6 +4926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuizPannel
       objectReference: {fileID: 0}
+    - target: {fileID: 5607821407830762852, guid: 13c3ccea897c76a46a0a1ac09521fd34, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9053150176827279437, guid: 13c3ccea897c76a46a0a1ac09521fd34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
