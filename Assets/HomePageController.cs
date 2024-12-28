@@ -16,7 +16,5 @@ public class HomePageController : MonoBehaviour
         HomePanel.SetActive(false);
         LevelSelection.SetActive(true); 
     }
-   
-
 
 }
