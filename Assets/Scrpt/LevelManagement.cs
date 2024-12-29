@@ -18,6 +18,7 @@ public class LevelManagement : MonoBehaviour
 
     void Start()
     {
+        
         // Check if canvasPrefab is assigned
        /* if (canvasPrefab != null)
         {
@@ -74,12 +75,16 @@ public class LevelManagement : MonoBehaviour
         if(lives > 0)
         {
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            rb.transform.position = startpos;
-            pausePanel.SetActive(false);
-            gameOverPanel.SetActive(false);
-            Time.timeScale = 1.0f;
+            /* rb.transform.position = startpos;
+             pausePanel.SetActive(false);
+             gameOverPanel.SetActive(false);
+             Time.timeScale = 1.0f;
+             lives--;
+             ResetTraps();*/
             lives--;
-            ResetTraps();
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+            Time.timeScale = 1.0f;  
         }
         else
         {

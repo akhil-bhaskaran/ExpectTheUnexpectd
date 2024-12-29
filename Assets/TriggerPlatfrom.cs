@@ -16,6 +16,7 @@ public class TriggerPlatfrom : MonoBehaviour
     void Start()
     {
         startPosition = platform.transform.position;
+        platform.transform.position = startPosition;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
