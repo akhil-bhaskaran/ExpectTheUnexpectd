@@ -13917,6 +13917,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5637073464255606737, guid: 2b9e8b4c96b592947a7377fe308a4f56, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1901342823}
+    - target: {fileID: 5637073464255606737, guid: 2b9e8b4c96b592947a7377fe308a4f56, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: stopGame
+      objectReference: {fileID: 0}
     - target: {fileID: 8722077857886597706, guid: 2b9e8b4c96b592947a7377fe308a4f56, type: 3}
       propertyPath: m_Name
       value: Canvas
