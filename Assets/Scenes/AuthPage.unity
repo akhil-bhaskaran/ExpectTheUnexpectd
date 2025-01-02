@@ -3200,6 +3200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a2e1168da12d6d4aa57d64682c7024b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firebasemanager: {fileID: 131929744}
   whiteCloud: {fileID: 554245219}
   greyCloud: {fileID: 1247762072}
   playerLayer: {fileID: 363142617}

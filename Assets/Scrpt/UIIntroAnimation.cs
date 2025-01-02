@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using Firebase.Auth;
 
 public class UIIntroAnimation : MonoBehaviour
 {
+    FirebaseAuth auth;
+    public FirebaseManager firebasemanager;
     public RectTransform whiteCloud;  // Assign White Cloud in Inspector
     public RectTransform greyCloud;   // Assign Grey Cloud in Inspector
     public RectTransform playerLayer; // Assign Player Layer in Inspector
@@ -15,7 +18,8 @@ public class UIIntroAnimation : MonoBehaviour
     public float animationDuration = 2.0f; // Duration for each animation
 
     void Start()
-    { 
+    {
+        auth = FirebaseAuth.DefaultInstance;
        Vector3 sign= signInPannel.GetComponent<RectTransform>().localScale ;
         // Animate the White Cloud from Left to Right
         LeanTween.moveX(whiteCloud, -248.98f, animationDuration).setEase(LeanTweenType.easeInOutQuad);
@@ -38,6 +42,11 @@ public class UIIntroAnimation : MonoBehaviour
         LeanTween.moveY(userNamePanel, 400, animationDuration).setEase(LeanTweenType.easeInOutQuad);
     }
     public void LoginButtonPressed() {
+        if (auth.CurrentUser.IsEmailVerified) {
+            
+            Debug.Log("Yes email is verified");
+        
+        }
         LeanTween.moveY(signInPannel,550f, animationDuration).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.moveY(registerPannel, -1000f, animationDuration).setEase(LeanTweenType.easeInOutQuad);
     }

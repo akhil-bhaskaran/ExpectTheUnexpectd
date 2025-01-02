@@ -1,16 +1,21 @@
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+
 
 public class FirebaseManager : MonoBehaviour
 { 
     //Firebase declarations
     public static FirebaseAuth auth;
+    public static DatabaseReference dbref;
 
     //Login GameObjects
     public TMP_InputField LoginEmail;
@@ -24,9 +29,13 @@ public class FirebaseManager : MonoBehaviour
 
     public GameObject StatusPanel;
 
+    public bool isEmailver=false;
+    
+
     private void Awake()
     {
         auth=FirebaseAuth.DefaultInstance;
+        dbref= FirebaseDatabase.DefaultInstance.RootReference;
 
     }
     public void RegisterPlayer()
@@ -39,14 +48,22 @@ public class FirebaseManager : MonoBehaviour
         {
             auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
+                
                 if (task.IsCompleted && !task.IsFaulted)
                 {
                     Debug.Log("Player registered successfully!");
-                    //CreateUserDatabaseEntry(email); 
                     SendVerificationEmail();
                     ClearSignUpFields();
-                    /*  SetStatus("Registration Successful! Please verify your email.");*/
                     ShowStatusPanel("Registration Successful! Please verify your email");
+                    if (task.Result.User != null)
+                    {
+                        Debug.Log($"User created: {task.Result.User.Email}");
+                    }
+                    else
+                    {
+                        Debug.LogError("Current user is null after registration.");
+                    }
+                    
                 }
                 else
                 {
@@ -73,9 +90,12 @@ public class FirebaseManager : MonoBehaviour
             {
                 Debug.Log($"User logged in successfully: {user.Email}");
                 ShowStatusPanel("Login Successful! Welcome");
+                
+                FetchUserdata(user.UserId);
                 /*  SetStatus("Login Successful! Welcome.");
                   FetchUserData(user.UserId); // Fetch user data from the database*/
                 SceneManager.LoadSceneAsync("HomePage");
+               
             }
             else
             {
@@ -93,6 +113,10 @@ public class FirebaseManager : MonoBehaviour
 
             }
         }
+    }
+    public bool isEmailverified() {
+        isEmailver = true;
+        return true;
     }
     // Method to Handle Task Exceptions (General for Firebase Tasks)
     private void HandleTaskException(AggregateException exception)
@@ -167,12 +191,17 @@ public class FirebaseManager : MonoBehaviour
                 if (task.IsCompleted && !task.IsFaulted)
                 {
                     Debug.Log("Verification email sent successfully.");
+                   
+                    
+                        StartEmailVerificationCheck();
+                    
                 }
                 else
                 {
                     Debug.LogError("Failed to send verification email.");
                 }
             });
+            
         }
         else
         {
@@ -191,6 +220,155 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("An unknown error occurred. Please try again.");
         }
     }
+    private void CreateNewUserData(string userId)
+    {
+        DataToSave userdata = new DataToSave
+        {
+            userId = userId,
+            Username = Username.text, 
+            Email = SignUpEmail.text,
+            CurrentLevel = 1,
+            UnlockedLevel = 1,
+            LivesRemaining = 5,
+            TimeBreak = false,
+        };
+
+        string json = JsonUtility.ToJson(userdata);
+        dbref.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWith(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                Debug.Log("User data saved successfully in Firebase.");
+            }
+            else
+            {
+                Debug.LogError("Failed to save user data: " + task.Exception?.Message);
+            }
+        });
+
+        DataManager.Instance.InitializeGameData(userdata.userId,userdata.Username,userdata.Email);
+    }
+    private void FetchUserdata(string userId)
+    {
+        StartCoroutine(FetchEnum(userId));
+    }
+    IEnumerator FetchEnum(string userID) {
+        var serverData =dbref.Child("users").Child(userID).GetValueAsync();
+        yield return new WaitUntil(predicate: ()=>serverData.IsCompleted);
+        print("Fetching completed");
+        DataSnapshot snapshot=serverData.Result;
+        string jsonData= snapshot.GetRawJsonValue();
+        if (jsonData != null) {
+             print(jsonData);
+           DataToSave dts=JsonUtility.FromJson<DataToSave>(jsonData);
+            DataManager.Instance.UserId=dts.userId;
+            DataManager.Instance.Username=dts.Username;
+            DataManager.Instance.Email=dts.Email;
+            DataManager.Instance.CurrentLevel = dts.CurrentLevel;
+            DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
+            DataManager.Instance.LivesRemaining = dts.LivesRemaining;
+            DataManager.Instance.TimeBreak = dts.TimeBreak;
+        }
+        else
+        {
+            print (" data is null");
+        }
+    }
+    /*    IEnumerator WaitForEmailVerification(Task<AuthResult> task)
+        {
+            Debug.Log("Entered into waiting fn");
+            FirebaseUser user = task.Result.User;
+            if (user == null)
+            {
+                Debug.LogError("No current user found! Coroutine cannot proceed.");
+                yield break;
+            }
+
+            Debug.Log($"Current user email: {user.Email}");
+
+            while (user != null && !user.IsEmailVerified)
+            {
+                Debug.Log("Checking verification status...");
+                Task reloadTask = user.ReloadAsync(); // Execute reload task outside of try block
+
+                while (!reloadTask.IsCompleted) // Wait until task is completed
+                {
+                    yield return null;
+                }
+
+                if (reloadTask.IsFaulted)
+                {
+                    Debug.LogError("Error reloading user: " + reloadTask.Exception?.Message);
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(2); // Wait before rechecking
+            }
+
+            if (user.IsEmailVerified)
+            {
+                Debug.Log("User verified! Creating database entry...");
+                CreateNewUserData(user.UserId);
+            }
+            else
+            {
+                Debug.LogError("User verification failed or user is null.");
+            }
+        }*/
+    public async void StartEmailVerificationCheck()
+    {
+        FirebaseUser user = auth.CurrentUser;
+        
+        Debug.Log("StartEmailVerificationCheck");
+
+        if (user == null)
+        {
+            Debug.LogError("No current user found! Email verification check cannot proceed.");
+            return;
+        }
+
+        Debug.Log($"Started email verification check for: {user.Email}");
+
+        while (user != null && !user.IsEmailVerified)
+        {
+            try
+            {
+                await user.ReloadAsync(); // Reload user data to check verification status
+                Debug.Log("Waiting for email verification...");
+                await Task.Delay(1000); // Wait for 1 second before checking again
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error reloading user data: {ex.Message}");
+                return;
+            }
+        }
+
+        if (user.IsEmailVerified)
+        {
+            Debug.Log("User verified! Creating database entry...");
+            CreateNewUserData(user.UserId);
+           
+        }
+        else
+        {
+            Debug.LogError("Email verification failed or user became null.");
+        }
+    }
+
+
+
 
 }
-    
+
+class DataToSave
+{
+    public string userId;
+    public string Username;
+    public string Email;
+    public int CurrentLevel;
+    public int UnlockedLevel;
+    public int LivesRemaining;
+    public bool TimeBreak;
+
+}
