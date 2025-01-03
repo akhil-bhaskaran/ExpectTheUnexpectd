@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    string UserD;
  
     public static DataManager Instance { get; private set; }
 
@@ -38,6 +39,8 @@ public class DataManager : MonoBehaviour
         LivesRemaining = 5;       
         TimeBreak = false;       
     }
+
+ 
     
 
   

@@ -7,11 +7,13 @@ using Firebase.Extensions;
 using System;
 using UnityEngine.SceneManagement;
 using System.Threading;
+using Firebase.Database;
 public class SplashScreen : MonoBehaviour
 {
     //fireabse variables
     FirebaseAuth auth;
-
+    DatabaseReference dbref;
+    FirebaseManager firebaseManager;
 
     private SynchronizationContext unityContext;
 
@@ -23,6 +25,7 @@ public class SplashScreen : MonoBehaviour
     {
         unityContext = SynchronizationContext.Current;
         StartCoroutine(SplashSequence());
+      
     }
     public IEnumerator SplashSequence()
     {
@@ -39,6 +42,7 @@ public class SplashScreen : MonoBehaviour
                 {
                     
                     auth = FirebaseAuth.DefaultInstance;
+                    dbref = FirebaseDatabase.DefaultInstance.RootReference;
                     Debug.Log("Firebase initialized successfully.");
                     CheckAuthentication();
                 });
@@ -67,8 +71,8 @@ public class SplashScreen : MonoBehaviour
                 if (user.IsEmailVerified)
                 {
                     Debug.Log("Authenticated and email verified. Loading HomeScene.");
-                   
-                    LoadScene("HomePage");
+                    FetchUserdata(user.UserId);
+                    
                 }
                 else
                 {
@@ -96,5 +100,34 @@ public class SplashScreen : MonoBehaviour
     {
         Debug.Log($"Attempting to load scene: {sceneName}");
         SceneManager.LoadScene(sceneName);
+    }
+    public void FetchUserdata(string userId)
+    {
+        StartCoroutine(FetchEnum(userId));
+    }
+    IEnumerator FetchEnum(string userID)
+    {
+        var serverData = dbref.Child("users").Child(userID).GetValueAsync();
+        yield return new WaitUntil(predicate: () => serverData.IsCompleted);
+        Debug.Log("Fetching completed");
+        DataSnapshot snapshot = serverData.Result;
+        string jsonData = snapshot.GetRawJsonValue();
+        if (jsonData != null)
+        {
+            Debug.Log(jsonData);
+            DataToSave dts = JsonUtility.FromJson<DataToSave>(jsonData);
+            DataManager.Instance.UserId = dts.userId;
+            DataManager.Instance.Username = dts.Username;
+            DataManager.Instance.Email = dts.Email;
+            DataManager.Instance.CurrentLevel = dts.CurrentLevel;
+            DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
+            DataManager.Instance.LivesRemaining = dts.LivesRemaining;
+            DataManager.Instance.TimeBreak = dts.TimeBreak;
+        }
+        else
+        {
+            Debug.Log(" data is null");
+        }
+        LoadScene("HomePage");
     }
 }

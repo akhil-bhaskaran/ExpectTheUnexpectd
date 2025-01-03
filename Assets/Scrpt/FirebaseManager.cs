@@ -226,7 +226,7 @@ public class FirebaseManager : MonoBehaviour
         {
             userId = userId,
             Username = Username.text, 
-            Email = SignUpEmail.text,
+            Email = auth.CurrentUser.Email,
             CurrentLevel = 1,
             UnlockedLevel = 1,
             LivesRemaining = 5,
@@ -248,18 +248,18 @@ public class FirebaseManager : MonoBehaviour
 
         DataManager.Instance.InitializeGameData(userdata.userId,userdata.Username,userdata.Email);
     }
-    private void FetchUserdata(string userId)
+    public void FetchUserdata(string userId)
     {
         StartCoroutine(FetchEnum(userId));
     }
     IEnumerator FetchEnum(string userID) {
         var serverData =dbref.Child("users").Child(userID).GetValueAsync();
         yield return new WaitUntil(predicate: ()=>serverData.IsCompleted);
-        print("Fetching completed");
+        Debug.Log("Fetching completed");
         DataSnapshot snapshot=serverData.Result;
         string jsonData= snapshot.GetRawJsonValue();
         if (jsonData != null) {
-             print(jsonData);
+             Debug.Log(jsonData);
            DataToSave dts=JsonUtility.FromJson<DataToSave>(jsonData);
             DataManager.Instance.UserId=dts.userId;
             DataManager.Instance.Username=dts.Username;
@@ -268,10 +268,11 @@ public class FirebaseManager : MonoBehaviour
             DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
             DataManager.Instance.LivesRemaining = dts.LivesRemaining;
             DataManager.Instance.TimeBreak = dts.TimeBreak;
+            
         }
         else
         {
-            print (" data is null");
+            Debug.Log (" data is null");
         }
     }
     /*    IEnumerator WaitForEmailVerification(Task<AuthResult> task)
