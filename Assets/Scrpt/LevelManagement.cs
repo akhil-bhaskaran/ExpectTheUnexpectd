@@ -1,3 +1,6 @@
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelManagement : MonoBehaviour
 {
-    private GameObject canvasPrefab;  // Prefab of the Canvas
-    private GameObject canvasInstance; // Instance of the Canvas
+    private GameObject canvasPrefab;  
+    private GameObject canvasInstance; 
     public GameObject pausePanel;
     public GameObject quizPanel;
     public GameObject gameOverPanel;
@@ -16,9 +19,11 @@ public class LevelManagement : MonoBehaviour
     Vector2 startpos;
     public int lives;// Reference to Pause Panel
 
+    //Firebase Declarations
+    public static DatabaseReference dbref;
     void Start()
     {
-        
+        dbref = FirebaseDatabase.DefaultInstance.RootReference;
         // Check if canvasPrefab is assigned
        /* if (canvasPrefab != null)
         {
@@ -125,7 +130,18 @@ public class LevelManagement : MonoBehaviour
         }
     }
 
-    void Update()
+    private void UpdateValue(string path, object newValue)
     {
+        dbref.Child(path).SetValueAsync(newValue).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                Debug.Log($"Value at {path} updated successfully to: {newValue}");
+            }
+            else
+            {
+                Debug.LogError($"Failed to update value at {path}: {task.Exception}");
+            }
+        });
     }
 }
