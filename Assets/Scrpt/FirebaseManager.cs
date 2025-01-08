@@ -220,14 +220,16 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("An unknown error occurred. Please try again.");
         }
     }
-    private void CreateNewUserData(string userId)
+    private void CreateNewUserData(string userId,string email)
     {
-        DataToSave userdata = new DataToSave
+        
+        DataToSave userdata = new DataToSave(email)
         {
             userId = userId,
             Username = Username.text, 
-            Email = auth.CurrentUser.Email,
+            Email = email,
             CurrentLevel = 1,
+            endtime=null,
             UnlockedLevel = 1,
             LivesRemaining = 5,
             TimeBreak = false,
@@ -348,7 +350,7 @@ public class FirebaseManager : MonoBehaviour
         if (user.IsEmailVerified)
         {
             Debug.Log("User verified! Creating database entry...");
-            CreateNewUserData(user.UserId);
+            CreateNewUserData(user.UserId,user.Email);
            
         }
         else
@@ -368,8 +370,13 @@ class DataToSave
     public string Username;
     public string Email;
     public int CurrentLevel;
+    public string? endtime;
     public int UnlockedLevel;
     public int LivesRemaining;
     public bool TimeBreak;
+    public DataToSave(string email) { 
+        Email = email;  
+    
+    }
 
 }
