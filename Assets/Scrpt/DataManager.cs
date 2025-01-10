@@ -11,6 +11,7 @@ public class DataManager : MonoBehaviour
     public string Username { get; set; }
     public string Email { get; set; }
     public int CurrentLevel { get; set; }
+    public string? endtime { get; set; }
     public int UnlockedLevel { get; set; }
     public int LivesRemaining { get; set; }
     public bool TimeBreak { get; set; }
@@ -34,9 +35,10 @@ public class DataManager : MonoBehaviour
         UserId = usrid; 
         Username = username;
         Email = email;
-        CurrentLevel = 1;         
+        CurrentLevel = 1; 
+        endtime=null;
         UnlockedLevel = 1;        
-        LivesRemaining = 5;       
+        LivesRemaining = 4;       
         TimeBreak = false;       
     }
 

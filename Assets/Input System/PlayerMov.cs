@@ -7,6 +7,7 @@ public class PlayerMov : MonoBehaviour
 {
     PlayerMovement controls;
     Rigidbody2D rb;
+
     [SerializeField] private float speed = 6f;
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
@@ -15,12 +16,12 @@ public class PlayerMov : MonoBehaviour
 
     private float direction = 0;
     private float currentVelocity;
-    private float jumpVelocity;
 
     // Ground detection fields
     [SerializeField] private Transform groundCheck; // Ground check position
     [SerializeField] private float groundCheckRadius = 0.2f; // Ground check radius
-    
+    [SerializeField] private LayerMask groundLayer; // LayerMask for the ground
+    private bool isGrounded;
 
     void Awake()
     {
@@ -35,18 +36,22 @@ public class PlayerMov : MonoBehaviour
         };
 
         // Jump input setup
-        controls.Player.Jump.performed += ctx => OnJump(ctx);
-        controls.Player.Jump.canceled += ctx => OnJump(ctx);  // Handling jump cut on button release
+        controls.Player.Jump.performed += OnJump;       // Start jump
+        controls.Player.Jump.canceled += OnJumpCancel; // Jump cut
     }
 
     void Update()
     {
+        // Check if the player is grounded
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
         SmoothHorizontalMovement();
     }
 
     void SmoothHorizontalMovement()
     {
         float targetVelocity = direction * speed;
+
         if (direction != 0)
         {
             currentVelocity = Mathf.Lerp(currentVelocity, targetVelocity, Time.deltaTime * acceleration);
@@ -56,36 +61,47 @@ public class PlayerMov : MonoBehaviour
         {
             currentVelocity = Mathf.Lerp(currentVelocity, 0, Time.deltaTime * deceleration);
         }
+
         rb.velocity = new Vector2(currentVelocity, rb.velocity.y); // Apply horizontal velocity
     }
 
     void Jump()
     {
-       
+        if (isGrounded)
+        {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Apply jump force
-        
+        }
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            Jump(); // Perform jump when pressed
-        }
-        else if (context.canceled)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutMultiplier); // Jump cut when released
+            Jump(); // Perform jump when button is pressed
         }
     }
 
-   
+    void OnJumpCancel(InputAction.CallbackContext context)
+    {
+        if (context.canceled && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutMultiplier); // Cut jump height when button is released
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw a visual for the ground check in the editor
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
 
     private void OnEnable()
     {
         controls.Enable();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         controls.Disable();
     }

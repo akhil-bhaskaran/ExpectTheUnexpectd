@@ -15,46 +15,17 @@ public class LevelManagement : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject spike;
 
-    public Rigidbody2D rb;
-    Vector2 startpos;
-    public int lives;// Reference to Pause Panel
+   
 
     //Firebase Declarations
     public static DatabaseReference dbref;
     void Start()
     {
         dbref = FirebaseDatabase.DefaultInstance.RootReference;
-        // Check if canvasPrefab is assigned
-       /* if (canvasPrefab != null)
-        {
-            Debug.Log("CanvasPrefab is assigned for this level.");
-
-            // Instantiate the Canvas prefab
-            canvasInstance = Instantiate(canvasPrefab, transform);
-            Debug.Log("Canvas Prefab instantiated successfully.");
-
-            // Find the PausePanel in the Canvas hierarchy
-            Transform panelTransform = canvasInstance.transform.Find("OptionsLabel");
-            if (panelTransform != null)
-            {
-                pausePanel = panelTransform.gameObject;
-                pausePanel.SetActive(false); // Ensure it starts inactive
-                Debug.Log("Pause Panel found and set to inactive.");
-            }
-            else
-            {
-                Debug.LogError("PausePanel not found in the Canvas Prefab! Check prefab structure.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Canvas Prefab is not assigned in the Inspector for this level!");
-        }*/
         pausePanel.SetActive(false);
         Debug.Log("Pause Panel initiated.");
         quizPanel.SetActive(false);
-        lives = 4;
-        startpos = rb.transform.position;
+       
     }
 
     
@@ -77,16 +48,10 @@ public class LevelManagement : MonoBehaviour
 
     public void restartGame()
     {
-        if(lives > 0)
+        if(DataManager.Instance.LivesRemaining > 0)
         {
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            /* rb.transform.position = startpos;
-             pausePanel.SetActive(false);
-             gameOverPanel.SetActive(false);
-             Time.timeScale = 1.0f;
-             lives--;
-             ResetTraps();*/
-            lives--;
+            
+            DataManager.Instance.LivesRemaining--;
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
             Time.timeScale = 1.0f;  
@@ -94,6 +59,7 @@ public class LevelManagement : MonoBehaviour
         else
         {
             quizPanel.SetActive(true);
+            DataManager.Instance.LivesRemaining = 4;
         }
        
     }

@@ -231,7 +231,7 @@ public class FirebaseManager : MonoBehaviour
             CurrentLevel = 1,
             endtime=null,
             UnlockedLevel = 1,
-            LivesRemaining = 5,
+            LivesRemaining = 4,
             TimeBreak = false,
         };
 
