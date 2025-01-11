@@ -228,7 +228,7 @@ public class FirebaseManager : MonoBehaviour
             userId = userId,
             Username = Username.text, 
             Email = email,
-            CurrentLevel = 1,
+            ReachedIndex = 3,
             endtime=null,
             UnlockedLevel = 1,
             LivesRemaining = 4,
@@ -266,7 +266,7 @@ public class FirebaseManager : MonoBehaviour
             DataManager.Instance.UserId=dts.userId;
             DataManager.Instance.Username=dts.Username;
             DataManager.Instance.Email=dts.Email;
-            DataManager.Instance.CurrentLevel = dts.CurrentLevel;
+            DataManager.Instance.ReachedIndex = dts.ReachedIndex;
             DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
             DataManager.Instance.LivesRemaining = dts.LivesRemaining;
             DataManager.Instance.TimeBreak = dts.TimeBreak;
@@ -361,7 +361,7 @@ public class FirebaseManager : MonoBehaviour
 
 
 
-
+ 
 }
 
 class DataToSave
@@ -369,7 +369,7 @@ class DataToSave
     public string userId;
     public string Username;
     public string Email;
-    public int CurrentLevel;
+    public int ReachedIndex;
     public string? endtime;
     public int UnlockedLevel;
     public int LivesRemaining;
@@ -378,5 +378,6 @@ class DataToSave
         Email = email;  
     
     }
+    
 
 }

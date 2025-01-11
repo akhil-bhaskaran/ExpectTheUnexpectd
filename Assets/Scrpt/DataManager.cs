@@ -1,3 +1,5 @@
+using Firebase.Auth;
+using Firebase.Database;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -10,18 +12,26 @@ public class DataManager : MonoBehaviour
     public string UserId{ get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
-    public int CurrentLevel { get; set; }
+    public int ReachedIndex { get; set; }
     public string? endtime { get; set; }
     public int UnlockedLevel { get; set; }
     public int LivesRemaining { get; set; }
     public bool TimeBreak { get; set; }
 
+
+
+    private FirebaseAuth auth;
+    private DatabaseReference dbref;
     private void Awake()
     {
+        auth = FirebaseAuth.DefaultInstance;
+        dbref = FirebaseDatabase.DefaultInstance.RootReference;
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Persist across scenes
+            
+
         }
         else
         {
@@ -35,17 +45,58 @@ public class DataManager : MonoBehaviour
         UserId = usrid; 
         Username = username;
         Email = email;
-        CurrentLevel = 1; 
         endtime=null;
+        ReachedIndex = 3;
         UnlockedLevel = 1;        
         LivesRemaining = 4;       
         TimeBreak = false;       
     }
+   /* private void OnApplicationPause(bool pause)
+    {
+        SaveDataToFirebase();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveDataToFirebase();
+    }
 
- 
-    
+    public void SaveDataToFirebase()
+    {
+        if (auth.CurrentUser == null)
+        {
+            Debug.LogError("No authenticated user. Cannot save data to Firebase.");
+            return;
+        }
 
-  
-   
+        DataToSave dts = new DataToSave(Email)
+        {
+            userId = UserId,
+            Username = Username,
+            Email = Email,
+            ReachedIndex = ReachedIndex,
+            endtime = endtime,
+            UnlockedLevel = UnlockedLevel,
+            LivesRemaining = LivesRemaining,
+            TimeBreak = TimeBreak,
+        };
+
+        dbref.Child("users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(JsonUtility.ToJson(dts))
+            .ContinueWith(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log("Data saved to Firebase successfully.");
+                }
+                else
+                {
+                    Debug.LogError("Failed to save data to Firebase: " + task.Exception);
+                }
+            });
+    }*/
+
+
+
+
+
 }
 
