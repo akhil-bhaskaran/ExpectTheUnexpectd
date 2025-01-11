@@ -28,17 +28,6 @@ public class LevelManagement : MonoBehaviour
        
     }
 
-    
-
-    public void gotoOne()
-    {
-        SceneManager.LoadScene("Level 1");
-    }
-
-    public void gotoTwo()
-    {
-        SceneManager.LoadScene("Level 2");
-    }
 
     public void gotoMainMenu()
     {
@@ -46,23 +35,7 @@ public class LevelManagement : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    public void restartGame()
-    {
-        if(DataManager.Instance.LivesRemaining > 0)
-        {
-            
-            DataManager.Instance.LivesRemaining--;
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
-            Time.timeScale = 1.0f;  
-        }
-        else
-        {
-            quizPanel.SetActive(true);
-            DataManager.Instance.LivesRemaining = 4;
-        }
-       
-    }
+  
     void ResetTraps()
     {
         spike.SetActive(false);
@@ -81,6 +54,23 @@ public class LevelManagement : MonoBehaviour
             Debug.LogError("PausePanel is not assigned or instantiated!");
         }
     }
+    public void restartGame()
+    {
+        if (DataManager.Instance.LivesRemaining > 0)
+        {
+
+           
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+            Time.timeScale = 1.0f;
+        }
+        else
+        {
+            quizPanel.SetActive(true);
+            DataManager.Instance.LivesRemaining = 4;
+        }
+
+    }
 
     public void resume()
     {
@@ -96,7 +86,7 @@ public class LevelManagement : MonoBehaviour
         }
     }
 
-    private void UpdateValue(string path, object newValue)
+    public void UpdateValue(string path, object newValue)
     {
         dbref.Child(path).SetValueAsync(newValue).ContinueWithOnMainThread(task =>
         {

@@ -14,36 +14,41 @@ public class HomePageController : MonoBehaviour
     public GameObject HomePanel ;
     public TextMeshProUGUI usernameHolder;
    public static FirebaseAuth auth ;
-     DateTime endTime;
+     DateTime? endTime;
     TimeSpan difference;
     string formatTime;
     private void Awake()
     {
         Debug.Log(DataManager.Instance.Username);
+        Debug.Log(DataManager.Instance.endtime);
         //initialise the dbrefs
         auth = FirebaseAuth.DefaultInstance;
         usernameHolder.text=DataManager.Instance.Username;
 
-
-    }
-    private void Start()
-    {
         string endTimeString = DataManager.Instance.endtime;
-        if (endTimeString != null)
+
+        if (endTimeString != null && endTimeString != "")
         {
+
             endTime = DateTime.Parse(DataManager.Instance.endtime);
         }
+        else {
+            endTime = null;
+        }
+
     }
+   
     private void Update()
     {
         if (endTime != null && endTime > DateTime.UtcNow)
         {
-            difference = endTime - DateTime.UtcNow;
+            difference = (TimeSpan)(endTime - DateTime.UtcNow);
             formatTime = $"{difference.Minutes:D2}:{difference.Seconds:D2}";
             timer.text = formatTime;
         }
         else { 
             timer.text = "00:00";
+
             DataManager.Instance.TimeBreak=false;
         }
         
@@ -59,7 +64,7 @@ public class HomePageController : MonoBehaviour
             LevelSelection.SetActive(true);
         }
         else {
-            Debug.Log("CAnt play");
+            Debug.Log("Cant play");
         }
     }
     public void Logout() {

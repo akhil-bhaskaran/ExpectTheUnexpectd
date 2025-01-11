@@ -119,6 +119,7 @@ public class SplashScreen : MonoBehaviour
             DataManager.Instance.UserId = dts.userId;
             DataManager.Instance.Username = dts.Username;
             DataManager.Instance.Email = dts.Email;
+           DataManager.Instance.endtime = dts.endtime;  
             DataManager.Instance.ReachedIndex= dts.ReachedIndex;
             DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
             DataManager.Instance.LivesRemaining = dts.LivesRemaining;

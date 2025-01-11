@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Boom : MonoBehaviour
 {
     public GameObject gameOver;
     
+    private void Awake()
+    {
+       
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -16,7 +21,19 @@ public class Boom : MonoBehaviour
 
     void Dead()
     {
+        restartGame();
         gameOver.SetActive(true);
         Time.timeScale = 0f;
+    }
+
+    public void restartGame()
+    {
+        if (DataManager.Instance.LivesRemaining > 0)
+        {
+
+            DataManager.Instance.LivesRemaining--;
+        }
+       
+
     }
 }

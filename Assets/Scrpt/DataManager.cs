@@ -51,14 +51,14 @@ public class DataManager : MonoBehaviour
         LivesRemaining = 4;       
         TimeBreak = false;       
     }
-   /* private void OnApplicationPause(bool pause)
+/*    private void OnApplicationPause(bool pause)
     {
         SaveDataToFirebase();
     }
     private void OnApplicationQuit()
     {
         SaveDataToFirebase();
-    }
+    }*/
 
     public void SaveDataToFirebase()
     {
@@ -92,7 +92,7 @@ public class DataManager : MonoBehaviour
                     Debug.LogError("Failed to save data to Firebase: " + task.Exception);
                 }
             });
-    }*/
+    }
 
 
 
