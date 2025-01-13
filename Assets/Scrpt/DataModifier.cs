@@ -23,18 +23,19 @@ public class DataModifier : MonoBehaviour
             Destroy(gameObject);
         }
     }
-  /*  private void OnApplicationPause(bool pause)
+    private void OnApplicationPause(bool pause)
     {
-        if(pause)
+        if (pause)
         {
             Debug.Log("App is paused. Saving data to Firebase...");
-            DataManager.Instance.SaveDataToFirebase();
+            StartCoroutine(DataManager.Instance.SaveDataToFirebase());
         }
-    }*/
-  
+    }
+
     private void OnApplicationQuit()
     {
-        DataManager.Instance.SaveDataToFirebase();
+        //DataManager.Instance.SaveDataToFirebase();
+        StartCoroutine(DataManager.Instance.SaveDataToFirebase());
         Debug.Log("Data is saving");
     }
 }

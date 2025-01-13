@@ -1,6 +1,7 @@
 using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine;
+using System.Collections;
 
 public class DataManager : MonoBehaviour
 {
@@ -60,12 +61,12 @@ public class DataManager : MonoBehaviour
         SaveDataToFirebase();
     }*/
 
-    public void SaveDataToFirebase()
+    public IEnumerator SaveDataToFirebase()
     {
         if (auth.CurrentUser == null)
         {
             Debug.LogError("No authenticated user. Cannot save data to Firebase.");
-            return;
+            yield break;
         }
 
         DataToSave dts = new DataToSave(Email)
@@ -80,8 +81,18 @@ public class DataManager : MonoBehaviour
             TimeBreak = TimeBreak,
         };
 
-        dbref.Child("users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(JsonUtility.ToJson(dts))
-            .ContinueWith(task =>
+        var saveTask = dbref.Child("users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(JsonUtility.ToJson(dts));
+        yield return new WaitUntil(() => saveTask.IsCompleted);
+        if (saveTask.IsCompleted)
+        {
+            Debug.Log("Data saved to Firebase successfully.");
+        }
+        else
+        {
+            Debug.LogError("Failed to save data to Firebase: " + saveTask.Exception);
+        }
+        /*
+        .ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -91,7 +102,7 @@ public class DataManager : MonoBehaviour
                 {
                     Debug.LogError("Failed to save data to Firebase: " + task.Exception);
                 }
-            });
+            });*/
     }
 
 
