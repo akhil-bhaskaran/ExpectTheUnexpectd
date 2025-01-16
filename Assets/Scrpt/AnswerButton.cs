@@ -26,6 +26,8 @@ public class AnswerButton : MonoBehaviour
         {
             Time.timeScale = 1.0f;
             Debug.Log("Correct Answer");
+            DataManager.Instance.LivesRemaining = 4;
+            StartCoroutine(DataManager.Instance.SaveDataToFirebase());
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         }
@@ -35,6 +37,7 @@ public class AnswerButton : MonoBehaviour
             DataManager.Instance.endtime = DateTime.UtcNow.Add(duration).ToString();
             Debug.Log(DateTime.UtcNow);
             DataManager.Instance.TimeBreak=true;
+            StartCoroutine(DataManager.Instance.SaveDataToFirebase());
             SceneManager.LoadScene("HomePage");
         }
     }

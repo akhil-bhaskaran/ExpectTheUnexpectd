@@ -52,14 +52,14 @@ public class DataManager : MonoBehaviour
         LivesRemaining = 4;       
         TimeBreak = false;       
     }
-/*    private void OnApplicationPause(bool pause)
-    {
-        SaveDataToFirebase();
-    }
-    private void OnApplicationQuit()
-    {
-        SaveDataToFirebase();
-    }*/
+    /*    private void OnApplicationPause(bool pause)
+        {
+            SaveDataToFirebase();
+        }
+        private void OnApplicationQuit()
+        {
+            SaveDataToFirebase();
+        }*/
 
     public IEnumerator SaveDataToFirebase()
     {
@@ -68,41 +68,43 @@ public class DataManager : MonoBehaviour
             Debug.LogError("No authenticated user. Cannot save data to Firebase.");
             yield break;
         }
-
-        DataToSave dts = new DataToSave(Email)
-        {
-            userId = UserId,
-            Username = Username,
-            Email = Email,
-            ReachedIndex = ReachedIndex,
-            endtime = endtime,
-            UnlockedLevel = UnlockedLevel,
-            LivesRemaining = LivesRemaining,
-            TimeBreak = TimeBreak,
-        };
-
-        var saveTask = dbref.Child("users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(JsonUtility.ToJson(dts));
-        yield return new WaitUntil(() => saveTask.IsCompleted);
-        if (saveTask.IsCompleted)
-        {
-            Debug.Log("Data saved to Firebase successfully.");
-        }
         else
         {
-            Debug.LogError("Failed to save data to Firebase: " + saveTask.Exception);
-        }
-        /*
-        .ContinueWith(task =>
+            DataToSave dts = new DataToSave(Email)
             {
-                if (task.IsCompleted)
+                userId = UserId,
+                Username = Username,
+                Email = Email,
+                ReachedIndex = ReachedIndex,
+                endtime = endtime,
+                UnlockedLevel = UnlockedLevel,
+                LivesRemaining = LivesRemaining,
+                TimeBreak = TimeBreak,
+            };
+
+            var saveTask = dbref.Child("users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(JsonUtility.ToJson(dts));
+            yield return new WaitUntil(() => saveTask.IsCompleted);
+            if (saveTask.IsCompleted)
+            {
+                Debug.Log("Data saved to Firebase successfully.");
+            }
+            else
+            {
+                Debug.LogError("Failed to save data to Firebase: " + saveTask.Exception);
+            }
+            /*
+            .ContinueWith(task =>
                 {
-                    Debug.Log("Data saved to Firebase successfully.");
-                }
-                else
-                {
-                    Debug.LogError("Failed to save data to Firebase: " + task.Exception);
-                }
-            });*/
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("Data saved to Firebase successfully.");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to save data to Firebase: " + task.Exception);
+                    }
+                });*/
+        }
     }
 
 

@@ -33,6 +33,7 @@ public class GotoNext : MonoBehaviour
         {
             DataManager.Instance.ReachedIndex = currentIndex + 1;
             DataManager.Instance.UnlockedLevel++;
+            StartCoroutine(DataManager.Instance.SaveDataToFirebase());
         }
     }
 }

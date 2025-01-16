@@ -67,7 +67,8 @@ public class LevelManagement : MonoBehaviour
         else
         {
             quizPanel.SetActive(true);
-            DataManager.Instance.LivesRemaining = 4;
+            
+
         }
 
     }

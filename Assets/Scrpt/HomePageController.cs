@@ -50,6 +50,11 @@ public class HomePageController : MonoBehaviour
             timer.text = "00:00";
 
             DataManager.Instance.TimeBreak=false;
+            if (DataManager.Instance.LivesRemaining<=0)
+            {
+                DataManager.Instance.LivesRemaining=4;
+                StartCoroutine(DataManager.Instance.SaveDataToFirebase());
+            }
         }
         
     }
