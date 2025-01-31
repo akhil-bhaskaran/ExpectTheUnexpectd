@@ -52,14 +52,7 @@ public class DataManager : MonoBehaviour
         LivesRemaining = 4;       
         TimeBreak = false;       
     }
-    /*    private void OnApplicationPause(bool pause)
-        {
-            SaveDataToFirebase();
-        }
-        private void OnApplicationQuit()
-        {
-            SaveDataToFirebase();
-        }*/
+    
 
     public IEnumerator SaveDataToFirebase()
     {

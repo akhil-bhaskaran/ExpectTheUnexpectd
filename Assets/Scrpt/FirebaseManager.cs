@@ -52,7 +52,9 @@ public class FirebaseManager : MonoBehaviour
                 if (task.IsCompleted && !task.IsFaulted)
                 {
                     Debug.Log("Player registered successfully!");
+                    
                     SendVerificationEmail();
+                    SaveData(auth.CurrentUser.UserId);
                     ClearSignUpFields();
                     ShowStatusPanel("Registration Successful! Please verify your email");
                     if (task.Result.User != null)
@@ -90,12 +92,8 @@ public class FirebaseManager : MonoBehaviour
             {
                 Debug.Log($"User logged in successfully: {user.Email}");
                 ShowStatusPanel("Login Successful! Welcome");
-                
                 FetchUserdata(user.UserId);
-                /*  SetStatus("Login Successful! Welcome.");
-                  FetchUserData(user.UserId); // Fetch user data from the database*/
                 SceneManager.LoadSceneAsync("HomePage");
-               
             }
             else
             {
@@ -220,7 +218,7 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("An unknown error occurred. Please try again.");
         }
     }
-    private void CreateNewUserData(string userId,string email)
+  /*  private void CreateNewUserData(string userId,string email)
     {
         
         DataToSave userdata = new DataToSave(email)
@@ -249,7 +247,7 @@ public class FirebaseManager : MonoBehaviour
         });
 
         DataManager.Instance.InitializeGameData(userdata.userId,userdata.Username,userdata.Email);
-    }
+    }*/
     public void FetchUserdata(string userId)
     {
         StartCoroutine(FetchEnum(userId));
@@ -270,7 +268,15 @@ public class FirebaseManager : MonoBehaviour
             DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
             DataManager.Instance.LivesRemaining = dts.LivesRemaining;
             DataManager.Instance.TimeBreak = dts.TimeBreak;
-            
+
+            //Local data Initialisation
+            PlayerPrefs.SetString("UserId",dts.userId);
+            PlayerPrefs.SetString("Username",dts.Username);
+            PlayerPrefs.SetString("Email",dts.Email);
+            PlayerPrefs.SetInt("ReachedIndex",dts.ReachedIndex);
+            PlayerPrefs.SetInt("UnlockedLevel", dts.UnlockedLevel);
+            PlayerPrefs.SetInt("LivesRemaining",dts.LivesRemaining);
+
         }
         else
         {
@@ -338,7 +344,7 @@ public class FirebaseManager : MonoBehaviour
             {
                 await user.ReloadAsync(); // Reload user data to check verification status
                 Debug.Log("Waiting for email verification...");
-                await Task.Delay(1000); // Wait for 1 second before checking again
+                await Task.Delay(1000); 
             }
             catch (Exception ex)
             {
@@ -350,7 +356,7 @@ public class FirebaseManager : MonoBehaviour
         if (user.IsEmailVerified)
         {
             Debug.Log("User verified! Creating database entry...");
-            CreateNewUserData(user.UserId,user.Email);
+           /* CreateNewUserData(user.UserId,user.Email);*/
            
         }
         else
@@ -359,9 +365,22 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    public void SaveData(string userid)
+    {
+        PlayerPrefs.SetInt("IsNewUser", 1);
+        PlayerPrefs.SetString("UserId", userid);
+        PlayerPrefs.SetString("Username", Username.text);
+        PlayerPrefs.SetString("Email", SignUpEmail.text);
+        PlayerPrefs.SetInt("ReachedIndex", 3);
+        PlayerPrefs.SetString("EndTime", string.Empty); 
+        PlayerPrefs.SetInt("UnlockedLevel", 1);
+        PlayerPrefs.SetInt("LivesRemaining", 4);
+        PlayerPrefs.SetInt("TimeBreak",  0);
 
-
- 
+        // Save changes
+        PlayerPrefs.Save();
+        Debug.Log("Data locally saved successfully!");
+    }
 }
 
 class DataToSave

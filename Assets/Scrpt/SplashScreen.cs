@@ -13,7 +13,7 @@ public class SplashScreen : MonoBehaviour
     //fireabse variables
     FirebaseAuth auth;
     DatabaseReference dbref;
-    FirebaseManager firebaseManager;
+
 
     private SynchronizationContext unityContext;
 
@@ -124,6 +124,25 @@ public class SplashScreen : MonoBehaviour
             DataManager.Instance.UnlockedLevel = dts.UnlockedLevel;
             DataManager.Instance.LivesRemaining = dts.LivesRemaining;
             DataManager.Instance.TimeBreak = dts.TimeBreak;
+            int breakIsActive=0;
+            if (dts.TimeBreak)
+            {
+                breakIsActive = 1;
+            }
+           
+                PlayerPrefs.SetString("UserId", dts.userId);
+                PlayerPrefs.SetString("Username", dts.Username);
+                PlayerPrefs.SetString("Email", dts.Email);
+                PlayerPrefs.SetInt("ReachedIndex", dts.ReachedIndex);
+                PlayerPrefs.SetString("EndTime", dts.endtime);
+                PlayerPrefs.SetInt("UnlockedLevel", dts.UnlockedLevel);
+                PlayerPrefs.SetInt("LivesRemaining", dts.LivesRemaining);
+                PlayerPrefs.SetInt("TimeBreak", breakIsActive);
+
+                // Save changes
+                PlayerPrefs.Save();
+                Debug.Log("Data locally saved successfully!");
+            
         }
         else
         {

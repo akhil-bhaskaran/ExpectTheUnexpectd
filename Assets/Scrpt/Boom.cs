@@ -30,8 +30,10 @@ public class Boom : MonoBehaviour
     {
         if (DataManager.Instance.LivesRemaining > 0)
         {
-
+            int livesrem = PlayerPrefs.GetInt("LivesRemaining");
             DataManager.Instance.LivesRemaining--;
+            PlayerPrefs.SetInt("LivesRemaining", (livesrem - 1));
+            PlayerPrefs.Save();
         }
        
 
