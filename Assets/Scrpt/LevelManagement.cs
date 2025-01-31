@@ -13,7 +13,6 @@ public class LevelManagement : MonoBehaviour
     public GameObject pausePanel;
     public GameObject quizPanel;
     public GameObject gameOverPanel;
-    public GameObject spike;
 
    
 
@@ -33,12 +32,6 @@ public class LevelManagement : MonoBehaviour
     {
         SceneManager.LoadScene("HomePage");
         Time.timeScale = 1.0f;
-    }
-
-  
-    void ResetTraps()
-    {
-        spike.SetActive(false);
     }
     public void stopGame()
     {
