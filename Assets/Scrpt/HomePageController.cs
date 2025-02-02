@@ -136,7 +136,7 @@ public class HomePageController : MonoBehaviour
     }
     public void ShowStatusPanel(string msg)
     {
-
+        Debug.Log("Warnign");
         TextMeshProUGUI statusText = StatusPanel.GetComponentInChildren<TextMeshProUGUI>();
         statusText.text = msg;
         StatusPanel.SetActive(true); // Show the panel
@@ -146,6 +146,7 @@ public class HomePageController : MonoBehaviour
     // Coroutine to hide the status panel after a delay
     private IEnumerator HideStatusPanelAfterDelay(float delay)
     {
+        Debug.Log("Stopping warning");
         yield return new WaitForSeconds(delay); // Wait for the specified delay (4 seconds)
         StatusPanel.SetActive(false);
     }
