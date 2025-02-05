@@ -16,12 +16,14 @@ public class PlayerMov : MonoBehaviour
 
     private float direction = 0;
     private float currentVelocity;
-
+    private float velocitySmoothing = 0f;
     // Ground detection fields
     [SerializeField] private Transform groundCheck; // Ground check position
     [SerializeField] private float groundCheckRadius = 0.2f; // Ground check radius
     [SerializeField] private LayerMask groundLayer; // LayerMask for the ground
     private bool isGrounded;
+
+    
 
     void Awake()
     {
@@ -48,21 +50,34 @@ public class PlayerMov : MonoBehaviour
         SmoothHorizontalMovement();
     }
 
+    // void SmoothHorizontalMovement()
+    // {
+    //     float targetVelocity = direction * speed;
+
+    //     if (direction != 0)
+    //     {
+    //         currentVelocity = Mathf.Lerp(currentVelocity, targetVelocity, Time.deltaTime * acceleration);
+    //         rb.transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1); // Flip sprite based on direction
+    //     }
+    //     else
+    //     {
+    //         currentVelocity = Mathf.Lerp(currentVelocity, 0, Time.deltaTime * deceleration);
+    //     }
+
+    //     rb.velocity = new Vector2(currentVelocity, rb.velocity.y); // Apply horizontal velocity
+    // }
+
     void SmoothHorizontalMovement()
     {
         float targetVelocity = direction * speed;
+        currentVelocity = Mathf.SmoothDamp(currentVelocity, targetVelocity, ref velocitySmoothing, acceleration * Time.fixedDeltaTime);
 
         if (direction != 0)
         {
-            currentVelocity = Mathf.Lerp(currentVelocity, targetVelocity, Time.deltaTime * acceleration);
             rb.transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1); // Flip sprite based on direction
         }
-        else
-        {
-            currentVelocity = Mathf.Lerp(currentVelocity, 0, Time.deltaTime * deceleration);
-        }
 
-        rb.velocity = new Vector2(currentVelocity, rb.velocity.y); // Apply horizontal velocity
+        rb.velocity = new Vector2(currentVelocity, rb.velocity.y);
     }
 
     void Jump()
