@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: Which is the largest flower in the world ?
   answers:
-  - Rufflusia
-  - Rose
+  - Rafflesia
+  - Opium poppy
   - Lotus
   - Daliya

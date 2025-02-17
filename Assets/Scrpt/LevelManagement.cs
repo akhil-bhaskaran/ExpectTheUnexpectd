@@ -51,8 +51,6 @@ public class LevelManagement : MonoBehaviour
     {
         if (DataManager.Instance.LivesRemaining > 0)
         {
-
-           
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
             Time.timeScale = 1.0f;
